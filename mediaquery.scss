@@ -1,0 +1,69 @@
+$screenSizes: ("xs": "320px", "sm":"768px", "md": "1024px", "lg": "1170px");
+
+@mixin media($maxOrMin, $size) {
+  @each $key, $value in $screenSizes {
+    @if $size == $key {
+      $size: $value;
+    }
+  }
+
+  @media only screen and (#{$maxOrMin}-width: $size) {
+    @content;
+  }
+}
+
+@mixin media-between($fromSize, $toSize) {
+  @each $key, $value in $screenSizes {
+    @if $fromSize == $key {
+      $fromSize: $value;
+    }
+
+    @if $toSize == $key {
+      $toSize: $value;
+    }
+  }
+
+
+  @media only screen and (min-width: $fromSize) and (max-width: $toSize) {
+    @content;
+  }
+}
+
+/*                      HOW TO USE
+* @import "../../../../src/styles/media-query";
+* Then use @include there only two mixins (media / media-between)
+
+.someClass {
+  @include media(min, 600px) {
+    display: block;
+  }
+  @include media(max, 600px) {
+    display: none;
+  }
+}
+
+                         OR YOU CAN USE LIKE THIS
+
+.someClass {
+  @include media(min, xs) {
+    display: block;
+  }
+  @include media(max, sm) {
+    display: none;
+  }
+}
+
+                         ANOTHER VARIANT
+
+.someClass {
+  @include media-between(sm, md) {
+    display: block;
+  }
+
+                         OR
+
+  @include media-between(800px, 900px) {
+    display: none;
+  }
+}
+*/
